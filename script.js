@@ -42,7 +42,7 @@ function randomFoodPosition() {
         return;
     }
     food.x = Math.floor(Math.random() * 18) * 20;
-    food.y = Math.floor(Math.random() * 20) * 20;
+    food.y = Math.floor(Math.random() * 18) * 20;
     for (const section of snake) {
         if (section.x === food.x && section.y === food.y) {
             foodTry++
