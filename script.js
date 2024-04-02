@@ -41,7 +41,7 @@ function randomFoodPosition() {
         gameOver()
         return;
     }
-    food.x = Math.floor(Math.random() * 20) * 20;
+    food.x = Math.floor(Math.random() * 18) * 20;
     food.y = Math.floor(Math.random() * 20) * 20;
     for (const section of snake) {
         if (section.x === food.x && section.y === food.y) {
@@ -57,10 +57,10 @@ function randomFoodPosition() {
 
 function updateSnake() {
     const newSnakeHead = {x: snake[0].x + direction.x, y: snake[0].y + direction.y};
-    if (newSnakeHead.x < 0) newSnakeHead.x = 380
-    if (newSnakeHead.x >= 400) newSnakeHead.x = 0
-    if (newSnakeHead.y < 0) newSnakeHead.y = 380
-    if (newSnakeHead.y >= 400) newSnakeHead.y = 0
+    if (newSnakeHead.x < 0) newSnakeHead.x = 340
+    if (newSnakeHead.x >= 360) newSnakeHead.x = 0
+    if (newSnakeHead.y < 0) newSnakeHead.y = 340
+    if (newSnakeHead.y >= 360) newSnakeHead.y = 0
     snake.unshift(newSnakeHead);
     if (newSnakeHead.x === food.x && newSnakeHead.y === food.y) {
         score++;

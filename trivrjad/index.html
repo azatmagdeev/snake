@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Три в ряд</title>
+    <style>
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            width: 300px;
+            height: 300px;
+        }
+        .cell {
+            width: 100px;
+            height: 100px;
+            border: 1px solid black;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="gameBoard">
+</div>
+
+<script>
+    // Глобальные переменные
+    let board = [];
+    const size = 3;
+    let currentPlayer = 'X';
+
+    // Функция инициализации игры
+    function init() {
+        const gameBoard = document.getElementById('gameBoard');
+
+        // Создание ячеек игрового поля
+        for (let i = 0; i < size; i++) {
+            board[i] = [];
+            for (let j = 0; j < size; j++) {
+                const cell = document.createElement('div');
+                cell.classList.add('cell');
+                cell.dataset.row = i;
+                cell.dataset.col = j;
+                cell.addEventListener('click', () => makeMove(i, j));
+                gameBoard.appendChild(cell);
+                board[i][j] = '';
+            }
+        }
+    }
+
+    // Функция хода
+    function makeMove(row, col) {
+        if (board[row][col] === '') {
+            board[row][col] = currentPlayer;
+            document.querySelector(`[data-row='${row}'][data-col='${col}']`).innerText = currentPlayer;
+
+            // Проверка на победу
+            if (checkWin(row, col)) {
+                alert(`${currentPlayer} выиграл!`);
+                reset();
+                return;
+            }
+
+            // Проверка на ничью
+            if (checkDraw()) {
+                alert('Ничья!');
+                reset();
+                return;
+            }
+
+            // Смена игрока
+            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+        }
+    }
+
+    // Функция проверки победы
+    function checkWin(row, col) {
+        const symbols = ['X', 'O'];
+
+        for (let symbol of symbols) {
+            let win = true;
+            // Проверка по строкам
+            for (let i = 0; i < size; i++) {
+                if (board[row][i] !== symbol) {
+                    win = false;
+                    break;
+                }
+            }
+            if (win) return true;
+
+            // Проверка по столбцам
+            win = true;
+            for (let i = 0; i < size; i++) {
+                if (board[i][col] !== symbol) {
+                    win = false;
+                    break;
+                }
+            }
+            if (win) return true;
+
+            // Проверка по диагоналям
+            win = true;
+            for (let i = 0; i < size; i++) {
+                if (board[i][i] !== symbol) {
+                    win = false;
+                    break;
+                }
+            }
+            if (win) return true;
+
+            win = true;
+            for (let i = 0; i < size; i++) {
+                if (board[i][size - 1 - i] !== symbol) {
+                    win = false;
+                    break;
+                }
+            }
+            if (win) return true;
+        }
+        return false;
+    }
+
+    // Функция проверки на ничью
+    function checkDraw() {
+        for (let row of board) {
+            for (let cell of row) {
+                if (cell === '') {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    // Функция сброса игры
+    function reset() {
+        for (let row = 0; row < size; row++) {
+            for (let col = 0; col < size; col++) {
+                board[row][col] = '';
+                document.querySelector(`[data-row='${row}'][data-col='${col}']`).innerText = '';
+            }
+        }
+        currentPlayer = 'X';
+    }
+
+    // Инициализация игры при загрузке страницы
+    window.onload = init;
+</script>
+</body>
+</html>
