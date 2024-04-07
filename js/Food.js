@@ -16,7 +16,7 @@ export class Food {
             return;
         }
         this.x = Math.floor(Math.random() * this.game.area.widthCells);
-        this.y = Math.floor(Math.random() * this.game.area.heigthCells);
+        this.y = Math.floor(Math.random() * this.game.area.heightCells);
         for (const section of this.game.snake) {
             if (section.x === this.x && section.y === this.y) {
                 this.try++

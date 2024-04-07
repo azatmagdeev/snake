@@ -19,7 +19,7 @@ export class Game {
     constructor() {
 
         this.area = new GameArea()
-        this.timeOut = speedFactor / (this.area.widthCells + this.area.heigthCells)
+        this.timeOut = speedFactor / (this.area.widthCells + this.area.heightCells)
 
         this.snake = new Snake(this)
         this.food = new Food(this)
