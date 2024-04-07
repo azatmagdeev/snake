@@ -2,7 +2,7 @@ import {Snake} from "./Snake.js";
 import {Food} from "./Food.js";
 import {GameArea} from "./GameArea.js";
 
-const speedFactor = 5000;
+const speedFactor = 15000;
 
 export const scoreElement = document.getElementById('score');
 const upButton = document.getElementById('upBtn');
