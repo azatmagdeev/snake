@@ -77,6 +77,35 @@ export class Game {
                     break
             }
         });
+
+        let x1, y1
+        document.addEventListener('touchstart', (e) => {
+            x1 = e.touches[0].clientX;
+            y1 = e.touches[0].clientY;
+        })
+        document.addEventListener('touchmove', (e) => {
+            if (!x1 || !y1) return;
+            let x2 = e.touches[0].clientX;
+            let y2 = e.touches[0].clientY;
+            let xDiff = x2 - x1;
+            let yDiff = y2 - y1;
+
+            if (Math.abs(xDiff) > Math.abs(yDiff)) {
+                if (xDiff > 0) {
+                    this.snake.direction.right()
+                } else {
+                    this.snake.direction.left()
+                }
+            } else {
+                if (yDiff > 0) {
+                    this.snake.direction.down()
+                } else {
+                    this.snake.direction.up()
+                }
+            }
+            x1 = null;
+            y1 = null;
+        })
     }
 
     loop() {
