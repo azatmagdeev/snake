@@ -14,21 +14,21 @@ export class Direction {
         }
     }
 
-    down(){
+    down() {
         if (this.y !== -1) {
             this.set(0, 1)
         }
     }
 
-    left(){
+    left() {
         if (this.x !== 1) {
-            this.set(-1, 0)// = {x: -1, y: 0};
+            this.set(-1, 0)
         }
     }
 
     right() {
         if (this.x !== -1) {
-            this.set(1, 0)// = {x: 20, y: 0};
+            this.set(1, 0)
         }
     }
 }

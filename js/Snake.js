@@ -1,6 +1,5 @@
 import {Direction} from "./Direction.js" ;
 import {SnakeSegment} from "./SnakeSegment.js" ;
-import {cellWidth} from "./Game.js" ;
 
 export class Snake extends Array {
     el;
@@ -22,32 +21,36 @@ export class Snake extends Array {
 
             const snakePart = document.createElement('div');
             snakePart.className = 'snake';
-            snakePart.style.left = segment.x * cellWidth + 'px';
-            snakePart.style.top = segment.y * cellWidth + 'px';
+            snakePart.style.left = segment.x * this.game.area.cellPixels + 'px';
+            snakePart.style.top = segment.y * this.game.area.cellPixels + 'px';
             if (index === 0) snakePart.className += ' head'
             this.el.appendChild(snakePart);
         });
     }
 
-    update(food) {
+    update() {
+
+        const game = this.game
+        const food = this.game.food
+
         const newSnakeHead = new SnakeSegment(
             this[0].x + this.direction.x,
             this[0].y + this.direction.y
         );
-        newSnakeHead.checkWall()
+        newSnakeHead.checkWall(this.game.area)
         this.unshift(newSnakeHead);
-        if (newSnakeHead.x === food.x && newSnakeHead.y === food.y) {
-            this.game.score++;
-            if (this.game.score > this.game.record) {
-                this.game.record = this.game.score;
-                localStorage.setItem('record', this.game.record.toString())
-            }
-            this.game.timeOut = Math.floor(this.game.timeOut * this.game.accelerationFactor)
-            food.randomPosition(this);
+
+        if (this.ateFood()) {
+            game.updateScore()
+            food.randomPosition();
         } else {
             this.pop();
         }
         this.render();
+    }
+
+    ateFood() {
+        return this[0].x === this.game.food.x && this[0].y === this.game.food.y
     }
 
     checkCollision() {

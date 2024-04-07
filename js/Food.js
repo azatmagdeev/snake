@@ -1,5 +1,3 @@
-import {cellWidth, gameAreaWidthCells} from "./Game.js";
-
 export class Food {
     try = 0
     el = null;
@@ -9,24 +7,25 @@ export class Food {
     constructor(game) {
         this.el = document.querySelector('#food');
         this.game = game
+        this.randomPosition()
     }
 
-    randomPosition(snake) {
+    randomPosition() {
         if (this.try >= 100) {
             this.game.over()
             return;
         }
-        this.x = Math.floor(Math.random() * gameAreaWidthCells);
-        this.y = Math.floor(Math.random() * gameAreaWidthCells);
-        for (const section of snake) {
+        this.x = Math.floor(Math.random() * this.game.area.widthCells);
+        this.y = Math.floor(Math.random() * this.game.area.heigthCells);
+        for (const section of this.game.snake) {
             if (section.x === this.x && section.y === this.y) {
                 this.try++
-                this.randomPosition(snake);
+                this.randomPosition();
                 return;
             }
         }
-        this.el.style.left = this.x * cellWidth + 'px';
-        this.el.style.top = this.y * cellWidth + 'px';
+        this.el.style.left = this.x * this.game.area.cellPixels + 'px';
+        this.el.style.top = this.y * this.game.area.cellPixels + 'px';
         this.try = 0
     }
 }

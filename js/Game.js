@@ -1,15 +1,9 @@
 import {Snake} from "./Snake.js";
 import {Food} from "./Food.js";
+import {GameArea} from "./GameArea.js";
 
+const speedFactor = 5000;
 
-
-
-export const initialTimeout = 300
-
-export const cellWidth = 20;
-export const gameAreaWidthCells = Math.floor(window.innerWidth/cellWidth)/2;
-
-export const gameArea = document.getElementById('gameArea');
 export const scoreElement = document.getElementById('score');
 const upButton = document.getElementById('upBtn');
 const downButton = document.getElementById('downBtn');
@@ -18,21 +12,19 @@ const rightButton = document.getElementById('rightBtn');
 
 export class Game {
     score = 0
-    timeOut = initialTimeout;
-    accelerationFactor = 0.99;
+    accelerationFactor = 0.98;
     record = localStorage.getItem('record') || 0
     timerId = 0
-    snake;
 
     constructor() {
+
+        this.area = new GameArea()
+        this.timeOut = speedFactor / (this.area.widthCells + this.area.heigthCells)
 
         this.snake = new Snake(this)
         this.food = new Food(this)
 
-        gameArea.style.width = gameAreaWidthCells*cellWidth + 'px'
-        gameArea.style.height = gameAreaWidthCells*cellWidth + 'px'
-        gameArea.focus()
-        this.food.randomPosition(this.snake);
+        //this.food.randomPosition();
         this.listeners()
     }
 
@@ -55,25 +47,25 @@ export class Game {
 
         document.addEventListener('keydown', event => {
             switch (event.key) {
+                case 'w':
+                case 'W':
                 case 'ArrowUp':
-                    if (this.snake.direction.y !== 1) {
-                        this.snake.direction.set(0, -1)
-                    }
+                    this.snake.direction.up()
                     break;
+                case 's':
+                case 'S':
                 case 'ArrowDown':
-                    if (this.snake.direction.y !== -1) {
-                        this.snake.direction.set(0, 1)
-                    }
+                    this.snake.direction.down()
                     break;
+                case'a':
+                case'A':
                 case 'ArrowLeft':
-                    if (this.snake.direction.x !== 1) {
-                        this.snake.direction.set(-1, 0)
-                    }
+                    this.snake.direction.left()
                     break;
+                case'd':
+                case'D':
                 case 'ArrowRight':
-                    if (this.snake.direction.x !== -1) {
-                        this.snake.direction.set(1, 0)
-                    }
+                    this.snake.direction.right()
                     break;
                 case ' ':
                     if (this.timerId) {
@@ -93,19 +85,24 @@ export class Game {
             this.over();
             return;
         }
-        this.snake.update(this.food);
+        this.snake.update();
         scoreElement.textContent = "score: " + this.score + "  record: " + this.record;
         this.timerId = setTimeout(() => this.loop(), this.timeOut);
     }
 
     over() {
         alert('Game Over! Your score: ' + this.score);
-        this.snake = new Snake()
-        this.snake.direction.set(1, 0);
-        this.score = 0;
-        this.timeOut = initialTimeout;
-        this.snake.render();
-        this.food.randomPosition(this.snake);
-        this.loop()
+        const game = new Game();
+        game.loop();
+        delete this;
+    }
+
+    updateScore() {
+        this.score++;
+        if (this.score > this.record) {
+            this.record = this.score;
+            localStorage.setItem('record', this.record.toString())
+        }
+        this.timeOut = Math.floor(this.timeOut * this.accelerationFactor)
     }
 }
