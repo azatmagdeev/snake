@@ -15,8 +15,6 @@ body {
     overflow: hidden;
 }
 
-
-
 .game-area {
     position: relative;
     border: 2px solid #000;
@@ -42,22 +40,4 @@ body {
 .food {
     background-color: red;
     border-radius: 10px;
-}
-
-.controls {
-    max-width: 360px;
-    width: 100%;
-    border: 1px solid black;
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.controls button {
-    border-radius: 25px;
-    margin: 10px;
-    width: 60px;
-    height: 60px;
-    font-size: 24px;
 }

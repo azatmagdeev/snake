@@ -5,10 +5,6 @@ import {GameArea} from "./GameArea.js";
 const speedFactor = 15000;
 
 export const scoreElement = document.getElementById('score');
-const upButton = document.getElementById('upBtn');
-const downButton = document.getElementById('downBtn');
-const leftButton = document.getElementById('leftBtn');
-const rightButton = document.getElementById('rightBtn');
 
 export class Game {
     score = 0
@@ -24,46 +20,38 @@ export class Game {
         this.snake = new Snake(this)
         this.food = new Food(this)
 
-        //this.food.randomPosition();
         this.listeners()
     }
 
     listeners() {
-        upButton.addEventListener('click', () => {
-            this.snake.direction.up()
-        });
-
-        downButton.addEventListener('click', () => {
-            this.snake.direction.down()
-        });
-
-        leftButton.addEventListener('click', () => {
-            this.snake.direction.left()
-        });
-
-        rightButton.addEventListener('click', () => {
-            this.snake.direction.right()
-        });
 
         document.addEventListener('keydown', event => {
             switch (event.key) {
                 case 'w':
                 case 'W':
+                case 'ц':
+                case 'Ц':
                 case 'ArrowUp':
                     this.snake.direction.up()
                     break;
                 case 's':
                 case 'S':
+                case 'ы':
+                case 'Ы':
                 case 'ArrowDown':
                     this.snake.direction.down()
                     break;
                 case'a':
                 case'A':
+                case'ф':
+                case'Ф':
                 case 'ArrowLeft':
                     this.snake.direction.left()
                     break;
                 case'd':
                 case'D':
+                case'в':
+                case'В':
                 case 'ArrowRight':
                     this.snake.direction.right()
                     break;
